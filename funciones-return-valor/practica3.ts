@@ -3,7 +3,7 @@
 */
 
 function EstaOrdenadaAlfabeticamente(cadenaAevaluar: string, indiceActual: number = cadenaAevaluar.length-1): boolean {
-    if (cadenaAevaluar[indiceActual] < cadenaAevaluar[indiceActual - 1]) {
+    if (cadenaAevaluar[indiceActual].toLowerCase() < cadenaAevaluar[indiceActual - 1].toLowerCase()) {
         return false;
     }
 
