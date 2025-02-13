@@ -7,7 +7,7 @@
    * * *
 */
 
-function CrearTriangulo(numeroDeAsteriscosDeLaBase: number, asteriscosEscritos?: number, outputDePiramide: string = "", saltosDePiso: number[] = EncontrarSaltosDePiso(numeroDeAsteriscosDeLaBase)) {
+function CrearTriangulo(numeroDeAsteriscosDeLaBase: number, asteriscosEscritos?: number, outputDePiramide: string = "", saltosDePiso: number[] = EncontrarSaltosDePiso(numeroDeAsteriscosDeLaBase)): void {
     // Si se utiliza la función sin el parametro opcional de los asteriscosEscritos, se vuelve a llamar a la función pero pasando el valor de 0
     if (asteriscosEscritos === undefined) {
         CrearTriangulo(numeroDeAsteriscosDeLaBase, 0);
@@ -46,6 +46,17 @@ function EncontrarSaltosDePiso(numeroDeAsteriscosDeLaBase: number): number[] {
     }
 
     return saltosDePiso;
+}
+
+// Misma funcion que EncontrarSaltosDePiso(), pero escrita como una función recursiva. 
+function Saltos(numeroDePisosDelTriangulo: number, saltosDePiso: number[] = [], iteradorDePisos: number = 1, cantidadDeAsteriscosParaSalto: number = 0): number[] {
+    if (iteradorDePisos === numeroDePisosDelTriangulo) {
+        return saltosDePiso;
+    }
+
+    cantidadDeAsteriscosParaSalto += iteradorDePisos;
+    saltosDePiso.push(cantidadDeAsteriscosParaSalto);
+    return Saltos(numeroDePisosDelTriangulo, saltosDePiso, iteradorDePisos + 1, cantidadDeAsteriscosParaSalto);
 }
 
 CrearTriangulo(5);
