@@ -22,7 +22,7 @@ function PopularTorre(
 function EncontrarTorreDeseadaDelDiscoSuperior(
   torreActual: number,
   torreDeseadaActual: number
-) {
+): number {
   let posicionesDeTorres: number[] = [0, 1, 2];
   posicionesDeTorres[torreActual] = -1;
   posicionesDeTorres[torreDeseadaActual] = -1;
@@ -40,7 +40,7 @@ function EncontrarPosicionDelDiscoMenorMasCercanoAlActual(
   numeroDeDiscoActual: number,
   torreDeseada: number,
   matrizDeTorres: number[][]
-) {
+): number {
   let posicionDelDiscoMenorMasCercanoAlActual: number = -1;
   for (let i: number = 0; i < matrizDeTorres[torreDeseada].length; i++) {
     if (matrizDeTorres[torreDeseada][i] < numeroDeDiscoActual) {
@@ -59,10 +59,14 @@ function ResolverTorreDeHanoi(
   posicionActual: number[] = [0, 0],
   torreDeseada: number = 2
 ): number[][] {
-  // Impresion Inicial de la matriz, solo se imprime una vez.
-  if (matrizDeTorres[0][discosTotales - 1] === 1 && discoAmover === 5) {
+  // Impresion Inicial de la matriz, solo se imprime una vez
+  if (
+    matrizDeTorres[0][discosTotales - 1] === 1 &&
+    discoAmover === discosTotales
+  ) {
     console.log(matrizDeTorres);
   }
+
   // Asigna un valor para determinar cual es la torre a la que quiere ir el disco encima del actual a mover
   let torreDeseadaDelDiscoSuperior: number =
     EncontrarTorreDeseadaDelDiscoSuperior(posicionActual[0], torreDeseada);
@@ -113,18 +117,39 @@ function ResolverTorreDeHanoi(
       );
     }
   }
+
   // Si llega a este punto, es porque es posible mover el disco actual a mover a la torre deseada
   matrizDeTorres[torreDeseada].push(
     matrizDeTorres[posicionActual[0]].pop() as number
   );
 
-  // En este punto me falta escribir un codigo que me permita determinar si ya se logro mover
-  // el primer disco contemplado, para luego volver a llamar a la funcion pero con una nueva posicion de torre
-
-  // Imprime en la consola el estado actual de la matriz de las torres y retorna
-  // la matriz para aquellas instancias que la requieren.
-
+  // Aqui se imprime en consola, la nueva configuracion de la matrizDeTorres (cada movimiento)
+  console.log(
+    `Mover la pieza ${discoAmover} de la torre ${
+      posicionActual[0] + 1
+    } a la torre ${torreDeseada + 1}`
+  );
   console.log(matrizDeTorres);
+
+  // Condicion para determinar si ya se ha completado la torre de hanoi
+  if (matrizDeTorres[2][discosTotales - 1] === 1) {
+    console.log("Se ha completado la torre de hanoi");
+    return matrizDeTorres;
+  }
+
+  // Condicion que detecta cada vez que se logra colocar un disco a la torra final en su posicion correcta
+  // Una vez lo haya hecho, cambia el valor de la posicion de la nueva torre que quedo.
+  if (matrizDeTorres[2][discosTotales - discoAmover] === discoAmover) {
+    let nuevaPosicionTorre: number = posicionActual[0] % 2 === 0 ? 1 : 0;
+    ResolverTorreDeHanoi(
+      discosTotales,
+      matrizDeTorres[nuevaPosicionTorre][0],
+      matrizDeTorres,
+      [nuevaPosicionTorre, 0]
+    );
+  }
+
+  // Retorna la matriz para aquellas instancias que la requieren.
   return matrizDeTorres;
 }
 
