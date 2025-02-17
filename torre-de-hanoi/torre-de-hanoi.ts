@@ -141,7 +141,7 @@ function ResolverTorreDeHanoi(
   // Una vez lo haya hecho, cambia el valor de la posicion de la nueva torre que quedo.
   if (matrizDeTorres[2][discosTotales - discoAmover] === discoAmover) {
     let nuevaPosicionTorre: number = posicionActual[0] % 2 === 0 ? 1 : 0;
-    ResolverTorreDeHanoi(
+    matrizDeTorres = ResolverTorreDeHanoi(
       discosTotales,
       matrizDeTorres[nuevaPosicionTorre][0],
       matrizDeTorres,
