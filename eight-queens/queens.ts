@@ -67,6 +67,13 @@ function EstaSiendoAtacada(posicionReina: number[], tablero: number[][]) {
     }
   }
 
+  // Recorre la diagonal superior derecha con respecto a la posicion de la reina
+  for (let i = 0; posicionReina[0] - i >= 0 && posicionReina[1] + i >= 0; i++) {
+    if (tablero[posicionReina[0] - i][posicionReina[1] + i] === 1) {
+      return true;
+    }
+  }
+
   return false;
 }
 
@@ -87,10 +94,12 @@ function GuardarSolucionesEnArchivo(
   tablero: number[][],
   nSoluciones: number[]
 ) {
-  for (let i: number = -1; i < tablero[0].length; i++) {
+  for (let i: number = -1; i <= tablero[0].length; i++) {
     let impresion: string = "";
     if (i === -1) {
       impresion = `Solucion #${nSoluciones[0]}\n----------\n`;
+    } else if (i === tablero[0].length) {
+      impresion = `\n`;
     } else {
       impresion = tablero[i].toString() + "\n";
     }
